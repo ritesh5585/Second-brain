@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Second Brain
 
 An AI-powered personal knowledge system that turns fragmented information into connected, searchable, and continuously resurfacing knowledge.
@@ -225,3 +226,7 @@ All phases above are currently **Planned**.
 ## 13. License
 
 TBD
+=======
+# Second-brain
+this is for testing purpose
+>>>>>>> e44f92eacf984fac5e9e4189b8b957e8fb3fe9d5
