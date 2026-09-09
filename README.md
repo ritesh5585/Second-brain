@@ -1,45 +1,50 @@
-# InkSeal
+# Second Brain
 
-**A privacy-first, browser-native PDF electronic signature platform — documents are signed entirely on the client, never uploaded to a server.**
-
-[![Project Status: Research & Specification](https://img.shields.io/badge/Status-Phase%200%20%7C%20Research%20%26%20Design-blue.svg)](./SRS.md)
-[![Architecture](https://img.shields.io/badge/Architecture-Next.js%20%2B%20Go%20%2B%20Postgres-emerald.svg)](./TECHNICAL_DECISIONS.md)
-[![Spec](https://img.shields.io/badge/Spec-INKSEAL--SRS--v1.0-orange.svg)](./SRS.md)
-[![ADR](https://img.shields.io/badge/ADR-001--Tech--Decisions-purple.svg)](./TECHNICAL_DECISIONS.md)
+An AI-powered personal knowledge system that turns fragmented information into connected, searchable, and continuously resurfacing knowledge.
 
 ---
 
 ## 2. Project Description
 
-InkSeal is a browser-based tool for signing PDF documents — uploading, placing signature fields, capturing a signature, and embedding it directly into the PDF — with **all processing happening client-side**.
+Second Brain is a developer-focused knowledge system built to solve two related problems: **knowledge fragmentation** and **knowledge decay**.
 
-Mainstream e-signature platforms (DocuSign, Adobe Sign, and similar cloud tools) require uploading sensitive legal, financial, or healthcare documents to third-party servers. This creates privacy exposure, recurring SaaS cost, vendor lock-in, and compliance overhead (GDPR/HIPAA data-processing agreements).
+Most people already have places to store information — bookmarks, PDFs, notes apps, saved articles, saved videos. The real problem isn't storage; it's that saved knowledge stays disconnected and is eventually forgotten. Second Brain captures what a user learns, processes it into structured, embedded knowledge, connects it to what they already know, and resurfaces it when it becomes relevant again.
 
-InkSeal's core value proposition is a **zero-knowledge architecture**: PDF parsing, signature rendering, byte-level embedding, and cryptographic fingerprinting all run in the browser via WebAssembly and native Web APIs. In the default configuration, no document content, signature image, or audit data is ever transmitted over the network — the signed PDF is downloaded directly to the user's device.
+**Target users:** developers, students, and researchers who consume large amounts of technical information from multiple sources (articles, PDFs, videos, repositories, notes).
 
-An optional, self-hosted enterprise backend can be layered on top for multi-party signing coordination and audit logging — and even then, it only ever receives SHA-256 hashes and metadata, never document bytes.
+**Core value proposition:** instead of asking *"Where did I save that?"*, the user can ask *"What do I already know about this topic?"* — and the system also proactively reminds them of related knowledge they've previously saved and may have forgotten.
+
+**Core product loop:**
+
+```
+Capture → Process → Understand → Store → Retrieve → Connect → Resurface
+```
 
 ---
 
 ## 3. Demo / Screenshots
 
-> _Not yet available. The project is in the research/specification phase — screenshots and a live demo will be added once the client-side signing engine (Phase 1) is implemented._
+_Coming soon — this project is in the development stage._
 
 ---
 
 ## 4. Key Features
 
-| Category | Capability |
+| Feature | Status |
 |---|---|
-| **PDF Handling** | Drag-and-drop or file-picker upload, structural validation, high-fidelity in-browser rendering with zoom/thumbnails |
-| **Signature Placeholders** | Place, drag, resize, and delete signature/initials/date fields on any page |
-| **Signature Capture** | Draw (canvas), type (cursive font), or upload an existing signature image |
-| **In-Browser Signing** | Signature permanently embedded into PDF bytes client-side — no server round trip |
-| **Verification / Integrity** | SHA-256 document fingerprinting computed before and after signing |
-| **Audit Trail** | Structured JSON audit metadata embedded in the PDF and exportable as a standalone file |
-| **Zero-Knowledge Privacy** | No document content leaves the browser by default; strict CSP with no outbound `connect-src` |
-| **Offline Capability** | *(Planned)* Full offline operation via a PWA service worker once cached |
-| **Enterprise Tier** | *(Planned)* Multi-party envelope routing, OTP/email signer authentication, immutable audit ledger — self-hosted, metadata-only backend |
+| Knowledge capture (save articles, notes, links) | Planned |
+| PDF ingestion | Planned |
+| URL / web page ingestion | Planned |
+| YouTube transcript ingestion | Planned |
+| Asynchronous content processing (queue-based) | Planned |
+| Cleaning + chunking of extracted content | Planned |
+| Embedding generation | Planned |
+| Semantic search over stored knowledge | Planned |
+| RAG-based personal knowledge assistant | Planned |
+| Knowledge relationships / knowledge graph | Planned |
+| Agentic knowledge organization (topic detection, duplicate detection, relevance scoring) | Planned |
+| Memory resurfacing ("you learned this before") | Planned |
+| User knowledge management (view, edit, organize saved knowledge) | Planned |
 
 ---
 
@@ -47,175 +52,176 @@ An optional, self-hosted enterprise backend can be layered on top for multi-part
 
 | Layer | Technology | Purpose |
 |---|---|---|
-| Frontend Framework | Next.js 14+ (App Router) | Unified full-stack React framework; supports SSR/SSG and code-split client bundles |
-| Language | TypeScript 5.x | End-to-end type safety across coordinate math, byte buffers, and audit schemas |
-| Styling | Tailwind CSS | Responsive design system with dark mode |
-| PDF Rendering | PDF.js 4.x | In-browser PDF parsing and canvas rendering |
-| PDF Manipulation | pdf-lib 1.17+ | Client-side, byte-level PDF signature embedding |
-| Signature Capture | Signature Pad 4.x | Canvas-based signature drawing with pressure simulation |
-| Cryptography | Web Crypto API (native) | Hardware-accelerated SHA-256 document fingerprinting |
-| Local Storage | IndexedDB (via `idb`) | Local persistence of saved signatures and document history |
-| Backend *(optional)* | Go (Golang) / Next.js Route Handlers | High-concurrency audit ingestion and envelope orchestration |
-| Database *(optional)* | PostgreSQL 16+ | ACID-compliant relational storage with `JSONB` for field geometry; append-only audit tables |
-| Data Layer *(optional)* | Prisma / Drizzle ORM | Type-safe migrations and generated TypeScript models |
+| Frontend | Next.js + TypeScript | Application foundation and UI |
+| Styling | Tailwind CSS | UI styling |
+| Backend | Node.js + Express | API layer |
+| Database | PostgreSQL | Primary data store (users, documents, chunks, tags, relationships, jobs) |
+| Vector Search | pgvector | Semantic/vector search on embeddings |
+| Queue | Redis + BullMQ | Asynchronous job processing for ingestion pipeline |
+| AI / LLM | Ollama (local), with future support for OpenAI/Claude | Text generation, RAG responses |
+| Embeddings | Ollama embedding model | Converting content chunks into vector embeddings |
+| PDF Extraction | PDF parser | Extracting text from PDF documents |
+| Web Extraction | Cheerio / Readability | Extracting clean content from web pages |
+| YouTube | Transcript extraction | Extracting text from YouTube videos |
+| Graph Visualization | D3.js | Visualizing knowledge relationships |
+| Auth | JWT / OAuth | User authentication |
+| Deployment | Docker + VPS / Render (TBD) | Hosting and deployment |
+| Monitoring | OpenTelemetry | Planned for a later phase |
 
 ---
 
 ## 6. Architecture Overview
 
-InkSeal is a layered, client-first system. The default configuration never crosses the privacy boundary shown below; the optional backend only ever receives hashes and metadata.
+Second Brain follows a pipeline architecture: content enters through ingestion, is processed asynchronously, converted into embeddings, stored, and made retrievable through semantic search and a RAG-based assistant.
 
 ```mermaid
 flowchart TD
-    U["User"]
+    U[User] --> WEB[Next.js / Web App]
+    WEB --> API[API Layer]
+    API --> ING[Ingestion]
 
-    subgraph CLIENT["Client — Runs Entirely In-Browser"]
-        UI["Next.js / React UI"]
-        ENGINE["Document & Coordinate Engine"]
-        RENDER["PDF Rendering — PDF.js"]
-        EMBED["PDF Modification — pdf-lib"]
-        SIG["Signature Capture — Signature Pad"]
-        CRYPTO["Cryptographic Hashing — Web Crypto (SHA-256)"]
-        IDB[("IndexedDB — Saved Signatures / History")]
+    subgraph Sources["Data Sources"]
+        PDF[PDF]
+        URLSRC[Web / URL]
+        YT[YouTube]
+        NOTES[Notes]
     end
 
-    subgraph BACKEND["Optional Self-Hosted Backend — Enterprise Tier (Planned)"]
-        API["REST / Webhook API — Go or Next.js Route Handlers"]
-        AUTH["Signer Auth / OTP Service"]
-        AUDIT["Immutable Audit Ledger Engine"]
-    end
-
-    subgraph PERSIST["Persistence — Enterprise Tier (Planned)"]
-        PG[("PostgreSQL — Envelopes, Recipients, Audit Logs")]
-    end
-
-    U --> UI --> ENGINE
-    ENGINE --> RENDER
-    ENGINE --> EMBED
-    ENGINE --> SIG
-    EMBED --> CRYPTO
-    UI -.optional local save.-> IDB
-
-    CRYPTO -. "metadata + SHA-256 hashes ONLY — zero document bytes" .-> API
-    API --> AUTH
-    API --> AUDIT
-    AUDIT --> PG
-
-    style CLIENT fill:#0d1b2a,stroke:#4fc3f7,color:#e7ebf1
-    style BACKEND fill:#10241a,stroke:#66bb6a,color:#e7ebf1
-    style PERSIST fill:#2a2110,stroke:#ffb74d,color:#e7ebf1
+    Sources --> ING
+    ING --> QUEUE[Queue / Workers]
+    QUEUE --> EXTRACT[Content Extraction]
+    EXTRACT --> CLEAN[Cleaning + Chunking]
+    CLEAN --> EMBED[Embeddings + Metadata]
+    EMBED --> DB[(PostgreSQL + pgvector)]
+    DB --> RETRIEVE[Semantic Retrieval]
+    RETRIEVE --> RAG[RAG / Relationship Engine]
+    RAG --> ASSIST[AI Assistant + Memory Resurfacing]
+    ASSIST --> U
 ```
 
-**Privacy boundary:** In the default (v1.0) configuration, PDF bytes, signature images, and audit data never leave the browser. If the optional enterprise backend is enabled, only SHA-256 hashes and event metadata (timestamps, event types, optional signer email) are transmitted — document content is never sent.
+**Flow summary:**
+
+1. A user saves content (PDF, web page, YouTube video, or note) through the web app.
+2. The API validates the request and hands it off to a queue rather than processing it synchronously.
+3. Background workers extract raw content, clean it, and split it into chunks.
+4. Each chunk is embedded and stored alongside metadata in PostgreSQL with pgvector.
+5. User queries go through semantic retrieval to find relevant chunks.
+6. Retrieved chunks feed a RAG pipeline that grounds the AI assistant's answers in the user's own knowledge.
+7. A relationship engine connects new knowledge to existing knowledge and resurfaces related items back to the user.
 
 ---
 
 ## 7. Project Structure
 
-Planned high-level structure for the Next.js + TypeScript implementation:
+Planned high-level structure (Next.js + TypeScript):
 
 ```
-src/
-├── app/          # Next.js App Router — pages, layouts, route handlers
-├── components/   # Reusable UI components (viewer, overlays, modals)
-├── features/     # Feature-scoped modules (upload, placeholders, signing, embedding)
-├── lib/          # Cross-cutting utilities (coordinate transforms, i18n)
-├── services/     # Business logic (document, embedding, audit trail, crypto)
-├── hooks/        # Custom React hooks
-└── types/        # Shared TypeScript types and schemas
-
-backend/          # (Planned) Optional Go / Next.js audit & orchestration service
-docs/             # SRS, ADR, and other architecture references
+app/          → Routes and pages (Next.js app router)
+components/   → Shared, reusable UI components
+features/     → Feature-oriented modules (capture, search, assistant, graph, etc.)
+lib/          → Shared utilities, clients, and helpers
+services/     → Business logic and integrations (extraction, embeddings, retrieval)
+workers/      → Background job processors (queue consumers)
+types/        → Shared TypeScript types and interfaces
+config/       → Environment and application configuration
+docs/         → Project and technical documentation
 ```
 
-- **`services/`** contains the framework-agnostic business logic (document handling, signature embedding, audit trail generation, cryptographic hashing).
-- **`features/`** groups UI + logic for a single user-facing capability.
-- **`backend/`** is only relevant if the optional enterprise audit tier is deployed.
+- **app/** — routes, pages, and layout for the Next.js application.
+- **components/** — presentational, reusable UI building blocks.
+- **features/** — self-contained functional areas of the product.
+- **lib/** — shared low-level utilities and client setup.
+- **services/** — core domain logic (ingestion, chunking, embeddings, retrieval).
+- **workers/** — asynchronous job handlers backed by the queue.
+- **types/** — shared type definitions across the app.
+- **config/** — environment and runtime configuration.
+- **docs/** — supporting engineering and design documentation.
 
 ---
 
 ## 8. Getting Started
 
-> ⚠️ **Status:** The project is currently in Phase 0 (Research & Specification) — no implementation code has been scaffolded yet. The steps below reflect the planned standard workflow for the selected stack and will be finalized once Phase 1 begins.
+### Prerequisites
+- Node.js (version TBD)
+- PostgreSQL with pgvector extension
+- Redis
+- Ollama (for local embeddings/LLM)
 
-**Prerequisites**
-- Node.js ≥ 20 LTS (frontend)
-- Go ≥ 1.22 and PostgreSQL ≥ 16 — *only required for the optional self-hosted enterprise backend*
-
-**Install dependencies** *(planned)*
+### Install
 ```bash
-npm install
+# TBD
 ```
 
-**Environment setup**
-```
-TBD
-```
-
-**Run the development server** *(planned)*
+### Environment
 ```bash
-npm run dev
+# TBD — see Environment Variables section
+```
+
+### Run
+```bash
+# TBD
 ```
 
 ---
 
 ## 9. Environment Variables
 
-No environment variables have been finalized yet.
-
 | Variable | Description | Status |
 |---|---|---|
-| — | Backend connection / auth configuration for the optional enterprise tier | `TBD` |
+| DATABASE_URL | PostgreSQL connection string | TBD |
+| REDIS_URL | Redis connection string | TBD |
+| OLLAMA_HOST | Ollama service endpoint | TBD |
+| JWT_SECRET | Auth token signing secret | TBD |
 
 ---
 
 ## 10. Team & Responsibilities
 
-| Role | Owner |
-|---|---|
-| Project Lead / Architect | Ateeksh Soni |
-| Frontend / Client Engine | `TBD` |
-| Backend / Audit (Enterprise Tier) | `TBD` |
-| UI/UX | `TBD` |
-| Security / Verification | `TBD` |
+| Role | Owner | Notes |
+|---|---|---|
+| Product / Architecture | TBD | — |
+| Backend / API | TBD | — |
+| AI / RAG Pipeline | TBD | — |
+| Frontend | TBD | — |
 
 ---
 
 ## 11. Documentation
 
-- [Software Requirements Specification](./SRS.md) — `INKSEAL-SRS-v1.0`
-- [Technical Decisions & Architecture (ADR-001)](./TECHNICAL_DECISIONS.md) — `INKSEAL-ADR-001`
-
-Additional architecture notes and research documents will be added to `docs/` as they are produced.
+Additional technical and architectural documentation (SRS, detailed design docs) will be linked here once available.
 
 ---
 
 ## 12. Project Status
 
-**Current phase: Phase 0 — Research, Architecture & Specification (Active)**
+**Current stage:** Planning / conceptual design. No components have been implemented yet.
 
-```mermaid
-flowchart LR
-    P0["Phase 0
-    Research & SRS
-    (Current)"] --> P1["Phase 1
-    Next.js & Client
-    Engine PoC"]
-    P1 --> P2["Phase 2
-    UI/UX & Signer
-    Interface"]
-    P2 --> P3["Phase 3
-    Go Audit Service
-    & PostgreSQL"]
-    P3 --> P4["Phase 4
-    Enterprise
-    Verification & Launch"]
+**Roadmap:**
+
+```
+Foundation
+   ↓
+Knowledge Ingestion
+   ↓
+Processing Pipeline
+   ↓
+Semantic Search
+   ↓
+RAG
+   ↓
+Knowledge Relationships
+   ↓
+Memory Resurfacing
+   ↓
+Agentic Features
+   ↓
+Production
 ```
 
-Completed to date: the [Software Requirements Specification](./SRS.md) and [Technical Decisions ADR](./TECHNICAL_DECISIONS.md) are approved as the Phase 0 baseline. No application code has shipped yet.
+All phases above are currently **Planned**.
 
 ---
 
 ## 13. License
 
-License has not yet been finalized. `TBD`
+TBD
