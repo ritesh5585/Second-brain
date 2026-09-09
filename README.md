@@ -1,2 +1,2 @@
 # Second-brain
-this is for testing purpose
+A production-grade second brain application.
