@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Second Brain
 
 An AI-powered personal knowledge system that turns fragmented information into connected, searchable, and continuously resurfacing knowledge.
@@ -228,5 +227,9 @@ All phases above are currently **Planned**.
 TBD
 =======
 # Second-brain
+<<<<<<< HEAD
 this is for testing purpose
 >>>>>>> e44f92eacf984fac5e9e4189b8b957e8fb3fe9d5
+=======
+A production-grade second brain application.
+>>>>>>> e8a4969d46e14d681a03a432cf07e806a239fdd3
