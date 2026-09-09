@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> e8b223eefd8258f4f8789ad68f9b667eca209e8d
 # Second Brain
 
 An AI-powered personal knowledge system that turns fragmented information into connected, searchable, and continuously resurfacing knowledge.
