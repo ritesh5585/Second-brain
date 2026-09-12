@@ -1,19 +1,28 @@
 import express from "express";
-import cookieparser from "cookie-parser";
-import morgan from "morgan";
 import helmet from "helmet";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import authRoutes from "./modules/auth/auth.route";
+import { errorHandler } from "./middleware/errorHandler";
+import { rateLimiter } from "./middleware/rateLimiter";
+import { env } from "./config/env";
 
 const app = express();
 
-app.use(express.json());
-app.use(cookieparser());
-app.use(morgan("dev"));
+// Global middleware
 app.use(helmet());
+app.use(express.json());
+app.use(cookieParser());
+app.use(morgan("dev"));
+app.use(rateLimiter);
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "OK", timestamp: new Date() });
+// Routes
+app.use("/api/auth", authRoutes);
+
+app.use((_req, res) => {
+  res.status(404).json({ success: false, message: "Route not found" });
 });
 
-// app.use("/api/auth");
+app.use(errorHandler);
 
 export default app;
